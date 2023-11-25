@@ -26,3 +26,32 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+const setSessionStorage = (name, data) => {
+  sessionStorage.setItem([name], JSON.stringify(data));
+}
+const getSessionStorage = (name) => {
+  return JSON.parse(sessionStorage.getItem([name]));
+}
+
+export const getRandomNumber = () => {
+  const randomNumber = getSessionStorage("randomNumber") + 1;
+  setSessionStorage("randomNumber", randomNumber);
+  return randomNumber;
+};
+
+export const getTitle = (count) => {
+
+  if (!count) {
+    return "";
+  }
+
+  const title = ` | Выделяли ${count} раз`;
+  const lastNumber = count % 100;
+
+  if (![12, 13, 14].includes(lastNumber) && [2, 3, 4].includes(lastNumber % 10)) {
+    return `${title}а`;
+  }
+
+  return title;
+}
