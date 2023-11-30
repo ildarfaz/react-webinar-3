@@ -1,0 +1,8 @@
+.CartHeader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.CartHeader-basket {
+  font-weight: bold;
+}

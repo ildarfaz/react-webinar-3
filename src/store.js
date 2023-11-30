@@ -1,4 +1,4 @@
-import {generateCode} from "./utils";
+import { generateCode } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -41,12 +41,21 @@ class Store {
   }
 
   /**
-   * Добавление новой записи
+   * Добавление товара в корзину
    */
-  addItem() {
-    this.setState({
+  addItem(item) {
+    if (this.state.basket?.find(value => value.code === item.code)?.code) {
+      return this.setState({
+        ...this.state,
+        price: this.state.price + item.price,
+        basket: this.state.basket.map(value => (value.code === item.code ? { ...value, price: value.price + item.price, count: value.count + 1, } : value))
+      })
+    }
+    return this.setState({
       ...this.state,
-      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
+      price: this.state.price + item.price,
+      count: this.state.count + 1,
+      basket: [...this.state.basket, { ...item, count: 1 }]
     })
   };
 
@@ -62,27 +71,14 @@ class Store {
     })
   };
 
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
+  toggleOpen() {
+    return this.setState({
       ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? {...item, selected: false} : item;
-      })
+      open: !this.state.open
     })
-  }
+  };
+
+  add
 }
 
 export default Store;

@@ -1,39 +1,41 @@
-import React, {useCallback} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import List from "./components/list";
-import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
+import Modal from './components/modal';
+import { CartHeader } from './components/cartheader';
 
 /**
  * Приложение
  * @param store {Store} Хранилище состояния приложения
  * @returns {React.ReactElement}
  */
-function App({store}) {
+function App({ store }) {
 
+  const [open, toggleOpen] = useState(false);
   const list = store.getState().list;
-
+  const count = store.getState().count;
+  const price = store.getState().price;
+  const onToggle = () => {
+    toggleOpen((prev) => !prev);
+  };
   const callbacks = {
     onDeleteItem: useCallback((code) => {
       store.deleteItem(code);
     }, [store]),
-
-    onSelectItem: useCallback((code) => {
-      store.selectItem(code);
+    onAddItem: useCallback((item) => {
+      store.addItem(item);
     }, [store]),
-
-    onAddItem: useCallback(() => {
-      store.addItem();
-    }, [store])
   }
 
   return (
     <PageLayout>
-      <Head title='Приложение на чистом JS'/>
-      <Controls onAdd={callbacks.onAddItem}/>
+      <Modal isOpen={open} onHandler={onToggle} />
+      <Head title='Магазин' />
+      <CartHeader onToggle={onToggle} count={count} price={price}/>
       <List list={list}
-            onDeleteItem={callbacks.onDeleteItem}
-            onSelectItem={callbacks.onSelectItem}/>
+        onAddItem={callbacks.onAddItem}
+        onSelectItem={callbacks.onSelectItem} />
     </PageLayout>
   );
 }
