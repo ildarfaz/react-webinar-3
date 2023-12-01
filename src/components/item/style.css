@@ -19,6 +19,10 @@
   display: flex;
   justify-content: space-between;
 }
+.Item-price {
+  display: flex;
+  gap : 60px;
+}
 
 .Item-actions {
   display: flex;

@@ -16,23 +16,31 @@ function App({ store }) {
   const list = store.getState().list;
   const count = store.getState().count;
   const price = store.getState().price;
-  const onToggle = () => {
-    toggleOpen((prev) => !prev);
+  const basket = store.getState().basket;
+  const onOpen = () => {
+    if (count) {
+      toggleOpen(true);
+    }
   };
+  const onClose = () => {
+    toggleOpen(false);
+  }
   const callbacks = {
-    onDeleteItem: useCallback((code) => {
-      store.deleteItem(code);
+    onDeleteItem: useCallback((item) => {
+      store.deleteItem(item);
     }, [store]),
     onAddItem: useCallback((item) => {
-      store.addItem(item);
-    }, [store]),
+      if (!open) {
+        store.addItem(item);
+      }
+    }, [store, open]),
   }
 
   return (
     <PageLayout>
-      <Modal isOpen={open} onHandler={onToggle} />
+      <Modal isOpen={open} onHandler={onClose} onDeleteItem={callbacks.onDeleteItem} basket={basket} price={price} />
       <Head title='Магазин' />
-      <CartHeader onToggle={onToggle} count={count} price={price}/>
+      <CartHeader onToggle={onOpen} count={count} price={price} />
       <List list={list}
         onAddItem={callbacks.onAddItem}
         onSelectItem={callbacks.onSelectItem} />

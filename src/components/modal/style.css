@@ -10,8 +10,9 @@
 }
 .Modal-dialog {
   width: 920px;
-  height: 407px;
+  min-height: 407px;
 }
+
 .Modal-head {
   padding: 10px;
   border-radius: 10px 10px 0 0;
@@ -19,4 +20,11 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+.Modal-footer {
+  padding: 20px 120px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 53px;
 }

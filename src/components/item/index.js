@@ -6,23 +6,30 @@ import Controls from "../controls";
 function Item(props) {
 
   const callbacks = {
-    onClick: () => {
 
+    onClick: (e) => {
+      if ("Удалить" === props.title) {
+        props.onDeleteItem(props.item);
+      } else {
+        props.onAddItem(props.item);
+      }
     },
-    onAddItem: (e) => {
-      props.onAddItem(props.item);
-    }
+
   }
 
   return (
-    <div className='Item' onClick={callbacks.onClick}>
+    <div className='Item'>
       <div className='Item-code'>{props.item.code}</div>
       <div className='Item-title'>
         <div>{props.item.title}</div>
-        <div>{`${props.item.price} ₽`}</div>
+        <div className="Item-price">
+          <div>{`${props.item.price} ₽`}</div>
+          {props.item.count && <div>{`${props.item.count} шт`}</div>}
+        </div>
+
       </div>
       <div className='Item-actions'>
-        <Controls onHandler={callbacks.onAddItem} title='Добавить' />
+        <Controls onHandler={callbacks.onClick} title={props.title} />
       </div>
     </div>
   );
@@ -35,12 +42,12 @@ Item.propTypes = {
     selected: PropTypes.bool,
     count: PropTypes.number
   }).isRequired,
-  onDelete: PropTypes.func,
+  onDeleteItem: PropTypes.func,
   onAddItem: PropTypes.func
 };
 
 Item.defaultProps = {
-  onDelete: () => {
+  onDeleteItem: () => {
   },
   onAddItem: () => {
   },

@@ -60,14 +60,15 @@ class Store {
   };
 
   /**
-   * Удаление записи по коду
-   * @param code
+   * Удаление товара по коду
    */
-  deleteItem(code) {
+  deleteItem(item) {
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
+      // Новый список товара, в котором не будет удаляемой записи
+      basket: this.state.basket.filter(value => value.code !== item.code),
+      count: this.state.count - 1,
+      price: this.state.price - item.price
     })
   };
 
