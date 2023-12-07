@@ -1,0 +1,15 @@
+.Button button {
+    min-width: 20px;
+    min-height: 20px;
+    border: 0;  
+    color: #000;
+    background: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.Button-active button {
+    background: #0087E9;
+    color: #fff;
+    pointer-events: none; 
+}

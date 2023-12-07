@@ -33,3 +33,18 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export const getPages = (activePage, totalPages) => {
+  const newPages = Array.from(Array(3).keys()).map((page) => activePage + page - (activePage === totalPages ? 2 : activePage > 0 ? 1 : 0));
+  switch (true) {
+    case totalPages <= 2:
+      return newPages;
+    case activePage === 2 && activePage + 2 < totalPages:
+      return [0, ...newPages, "...", totalPages];
+    case activePage > 2 && activePage + 2 < totalPages:
+      return [0, "...", ...newPages, "...", totalPages];
+    case activePage >= totalPages - 2:
+      return [0, "...", ...newPages];
+  }
+  return [...newPages, "...", totalPages];
+}

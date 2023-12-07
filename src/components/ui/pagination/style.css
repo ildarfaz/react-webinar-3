@@ -1,0 +1,13 @@
+.Pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding: 22px;
+}
+.Pagination-ellipsis {
+    min-width: 20px;
+    min-height: 20px;
+    border: 0;  
+    color: #ccc;
+    background: #fff;
+    user-select: none; 
+}
