@@ -36,6 +36,7 @@ export function numberFormat(value, locale = 'ru-RU', options = {}) {
 
 export const getPages = (activePage, totalPages) => {
   const newPages = Array.from(Array(3).keys()).map((page) => activePage + page - (activePage === totalPages ? 2 : activePage > 0 ? 1 : 0));
+
   switch (true) {
     case totalPages <= 2:
       return newPages;
@@ -43,8 +44,10 @@ export const getPages = (activePage, totalPages) => {
       return [0, ...newPages, "...", totalPages];
     case activePage > 2 && activePage + 2 < totalPages:
       return [0, "...", ...newPages, "...", totalPages];
-    case activePage >= totalPages - 2:
+    case activePage > totalPages - 2:
       return [0, "...", ...newPages];
+    case activePage === totalPages - 2:
+      return [0, "...", ...newPages, totalPages];
   }
   return [...newPages, "...", totalPages];
 }

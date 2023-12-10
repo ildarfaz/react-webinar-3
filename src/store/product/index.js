@@ -1,7 +1,7 @@
 import { codeGenerator } from "../../utils";
 import StoreModule from "../module";
 
-class Products extends StoreModule {
+class Product extends StoreModule {
 
   constructor(store, name) {
     super(store, name);
@@ -25,7 +25,8 @@ class Products extends StoreModule {
       product: result,
       loading: false
     }, 'Загружено описание товара из АПИ');
+    return result;
   }
 }
 
-export default Products;
+export default Product;

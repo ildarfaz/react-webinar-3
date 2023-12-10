@@ -5,13 +5,11 @@ import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from "../../utils";
 import './style.css';
 
-function BasketTool({ sum, amount, onOpen }) {
+function BasketTool({ renderLeftItem, sum, amount, onOpen }) {
   const cn = bem('BasketTool');
   return (
     <div className={cn()}>
-      <div className={cn('link')}>
-        <Link to="/">Главное</Link>
-      </div>
+      {renderLeftItem}
       <div>
         <span className={cn('label')}>В корзине:</span>
         <span className={cn('total')}>
@@ -31,12 +29,14 @@ function BasketTool({ sum, amount, onOpen }) {
 }
 
 BasketTool.propTypes = {
+  renderLeftItem: PropTypes.node,
   onOpen: PropTypes.func.isRequired,
   sum: PropTypes.number,
   amount: PropTypes.number
 };
 
 BasketTool.defaultProps = {
+  renderLeftItem: <div></div>,
   onOpen: () => { },
   sum: 0,
   amount: 0

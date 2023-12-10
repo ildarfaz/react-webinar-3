@@ -7,7 +7,9 @@
     cursor: pointer;
     user-select: none;
 }
-
+.Button button:hover {
+    background: #E1E1E1;
+}
 .Button-active button {
     background: #0087E9;
     color: #fff;
