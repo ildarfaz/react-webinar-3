@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { ProductItem } from '../../components/product-item';
 import { Loading } from '../../components/ui/loading';
 import { A } from '../../components/ui/a';
+import { getTitle, title } from '../../locale';
 
 export const Product = memo(({ }) => {
 
@@ -17,7 +18,8 @@ export const Product = memo(({ }) => {
     product: state.product.product,
     loading: state.product.loading,
     amount: state.basket.amount,
-    sum: state.basket.sum
+    sum: state.basket.sum,
+    lang: state.language.language,
   }));
 
   const callbacks = {
@@ -25,6 +27,7 @@ export const Product = memo(({ }) => {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    handlerLang: (lang) => store.actions.language.changeLanguage(lang),
   };
 
   useLayoutEffect(() => {
@@ -34,10 +37,19 @@ export const Product = memo(({ }) => {
   return (
     <PageLayout>
       {!select.loading ?
-        <><Head title={select?.product?.title} />
-          <BasketTool renderLeftItem={<A title="Главная" to="/" />} onOpen={callbacks.openModalBasket} amount={select.amount}
+        <><Head title={select?.product?.title} lang={select.lang} handlerLang={callbacks.handlerLang} />
+          <BasketTool renderLeftItem={<A title={getTitle(title.MAIN)} to="/" />} onOpen={callbacks.openModalBasket} amount={select.amount}
             sum={select.sum} />
-          <ProductItem onAdd={callbacks.addToBasket} product={select.product} /></> : <Loading />}
+          <ProductItem
+            onAdd={callbacks.addToBasket}
+            product={select.product}
+            controlsTitle={getTitle(title.ADD)}
+            priceTitle= {getTitle(title.PRICE)}
+            editionTitle = {getTitle(title.EDITION)}
+            categoryTitle = {getTitle(title.CATEGORY)}
+            madeInTitle = {getTitle(title.MADE_IN_COUNTRY)}
+            />
+        </> : <Loading />}
     </PageLayout>
   );
 });

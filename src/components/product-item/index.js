@@ -13,11 +13,11 @@ export const ProductItem = memo((props) => {
   return (
     <div className={cn()}>
       <div>{props.product?.description}</div>
-      <div><span>{"Страна производитель: "}</span><strong>{`${props.product?.madeIn.title} (${props.product?.madeIn.code})`}</strong></div>
-      <div><span>{"Категория: "}</span><strong>{props.product?.category.title}</strong></div>
-      <div><span>{"Год выпуска: "}</span><strong>{props.product?.edition}</strong></div>
-      <div><h2>{`Цена: ${numberFormat(props.product?.price)} ₽`}</h2></div>
-      <Controls onAdd={callbacks.onAdd} />
+      <div><span>{`${props.madeInTitle}: `}</span><strong>{`${props.product?.madeIn.title} (${props.product?.madeIn.code})`}</strong></div>
+      <div><span>{`${props.categoryTitle}: `}</span><strong>{props.product?.category.title}</strong></div>
+      <div><span>{`${props.editionTitle}: `}</span><strong>{props.product?.edition}</strong></div>
+      <div><h2>{`${props.priceTitle}: ${numberFormat(props.product?.price)} ₽`}</h2></div>
+      <Controls onAdd={callbacks.onAdd} title={props.controlsTitle} />
     </div>
   );
 });
@@ -32,7 +32,12 @@ ProductItem.propTypes = {
       title: PropTypes.string,
       code: PropTypes.string,
     })
-  })
+  }),
+  controlsTitle: PropTypes.string,
+  priceTitle: PropTypes.string,
+  editionTitle: PropTypes.string,
+  categoryTitle: PropTypes.string,
+  madeInTitle: PropTypes.string,
 }
 ProductItem.defaultProps = {
   onAdd: () => { },

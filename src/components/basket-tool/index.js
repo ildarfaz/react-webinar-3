@@ -1,9 +1,9 @@
 import { memo } from "react";
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from "../../utils";
 import './style.css';
+import { getTitle, title } from "../../locale";
 
 function BasketTool({ renderLeftItem, sum, amount, onOpen }) {
   const cn = bem('BasketTool');
@@ -11,18 +11,14 @@ function BasketTool({ renderLeftItem, sum, amount, onOpen }) {
     <div className={cn()}>
       {renderLeftItem}
       <div>
-        <span className={cn('label')}>В корзине:</span>
+        <span className={cn('label')}>{getTitle(title.IN_BASKET)}:</span>
         <span className={cn('total')}>
           {amount
-            ? `${amount} ${plural(amount, {
-              one: 'товар',
-              few: 'товара',
-              many: 'товаров'
-            })} / ${numberFormat(sum)} ₽`
-            : `пусто`
+            ? `${amount} ${plural(amount, getTitle(title.PRODUCT))} / ${numberFormat(sum)} ₽`
+            : getTitle(title.EMPTY)
           }
         </span>
-        <button onClick={onOpen}>Перейти</button>
+        <button onClick={onOpen}>{getTitle(title.GO)}</button>
       </div>
     </div>
   );

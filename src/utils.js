@@ -51,3 +51,10 @@ export const getPages = (activePage, totalPages) => {
   }
   return [...newPages, "...", totalPages];
 }
+
+export const setSessionStorage = (name, data) => {
+  sessionStorage.setItem([name], JSON.stringify(data));
+}
+export const getSessionStorage = (name) => {
+  return JSON.parse(sessionStorage.getItem([name]));
+}
