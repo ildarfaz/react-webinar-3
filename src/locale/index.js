@@ -22,4 +22,5 @@ export const title = {
     CLOSE: "CLOSE",
     TOTAL: "TOTAL",
     PRODUCT: "PRODUCT",
+    COUNT: "COUNT"
 }

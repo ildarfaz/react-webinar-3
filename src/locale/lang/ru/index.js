@@ -17,5 +17,10 @@ export const ru = {
         one: 'товар',
         few: 'товара',
         many: 'товаров'
+    },
+    COUNT: {
+        one: 'шт',
+        few: 'шт',
+        many: 'шт'
     }
 }

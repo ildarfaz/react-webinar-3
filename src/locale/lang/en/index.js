@@ -17,6 +17,11 @@ export const en = {
         one: 'product',
         few: 'products',
         many: 'products'
+    },
+    COUNT: {
+        one: 'pc',
+        few: 'pcs',
+        many: 'pcs'
     }
 }
 
