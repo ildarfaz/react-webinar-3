@@ -33,3 +33,14 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export const getSortOptions = (options, parentId = null, level = 0) => {
+  return options.reduce((result, item) => {
+    const itemParent = item.parent?._id || null;
+    if (itemParent === parentId) {
+      item.title = '- '.repeat(level) + item.title;
+      result.push({ value: item._id, title: item.title }, ...getSortOptions(options, item._id, level + 1));
+    }
+    return result;
+  }, []);
+};
