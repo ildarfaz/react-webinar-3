@@ -13,6 +13,7 @@ class ProfileState extends StoreModule {
       token,
       username,
       profile: null,
+      email: null,
       error: null,
       waiting: false,
       isAuth: !!(token && username),
@@ -35,7 +36,8 @@ class ProfileState extends StoreModule {
     if ((profile.status == 200)) {
       this.setState({
         ...this.getState(),
-        profile: json.result.user,
+        profile: json.result.user.profile,
+        email: json.result.user.email,
         username: json.result.user.profile.name,
         token: json.result.token,
         waiting: false,
@@ -43,8 +45,7 @@ class ProfileState extends StoreModule {
       }, 'Пользователь авторизован');
       setLocalStorage("token", json.result.token);
       setLocalStorage("userName", json.result.user.profile.name);
-    }
-    else {
+    } else {
       this.setState({
         ...this.getState(),
         error: {
@@ -72,6 +73,7 @@ class ProfileState extends StoreModule {
       token: null,
       username: null,
       profile: null,
+      email: null,
       error: null,
       waiting: false,
       isAuth: false,
@@ -79,7 +81,32 @@ class ProfileState extends StoreModule {
     removeLocalStorage("token");
     removeLocalStorage("userName");
   };
+  async load() {
+    const token = this.getState().token;
+    this.setState({
+      ...this.getState(),
+      waiting: true,
+    });
+    const response = await fetch(`/api/v1/users/self?fields=*`, {
+      method: "get",
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Token': token
+      },
+    });
+    const { result } = await response.json();
+    this.setState({
+      ...this.getState(),
+      profile: result.profile,
+      email: result.email,
+      username: result.username,
+      waiting: false,
+    }, 'Профиль обновлен');
 
+  };
 };
+
+
+
 
 export default ProfileState;
