@@ -1,22 +1,23 @@
-import {memo} from "react";
+import { memo } from "react";
 import PropTypes from 'prop-types';
 import './style.css';
 
-function Controls({onAdd}) {
+function Controls(props) {
   return (
     <div className='Controls'>
-      <button onClick={() => onAdd()}>Добавить</button>
+      <button onClick={() => props.onHandler()}>{props.title}</button>
     </div>
   )
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+  onHandler: PropTypes.func
 };
 
 Controls.defaultProps = {
-  onAdd: () => {
-  }
+  onHandler: () => {
+  },
+  title: 'Добавить'
 }
 
 export default memo(Controls);

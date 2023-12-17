@@ -44,3 +44,13 @@ export const getSortOptions = (options, parentId = null, level = 0) => {
     return result;
   }, []);
 };
+
+export const setLocalStorage = (name, data) => {
+  localStorage.setItem([name], JSON.stringify(data));
+}
+export const getLocalStorage = (name) => {
+  return JSON.parse(localStorage.getItem([name]));
+}
+export const removeLocalStorage = (name) => {
+  localStorage.removeItem([name]);
+}

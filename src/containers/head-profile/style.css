@@ -1,0 +1,9 @@
+.HeadProfile {
+  height: 41px;
+  background: #fff;
+  display: flex;
+  padding: 0 15px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
