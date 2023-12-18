@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useLayoutEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
 import useTranslate from "../../hooks/use-translate";
@@ -10,25 +10,26 @@ export const Auth = memo(() => {
   const store = useStore();
   const navigate = useNavigate();
   const select = useSelector(state => ({
-    waiting: state.profile.waiting,
-    isAuth: state.profile.isAuth,
+    waiting: state.auth.waiting,
+    isAuth: state.auth.isAuth,
+    error: state.auth.error,
   }));
 
   const callbacks = {
-    onAuth: useCallback((data) => store.actions.profile.fetchAuth(data), [store]),
+    onAuth: useCallback((data) => store.actions.auth.fetchAuth(data), [store]),
   }
 
   const { t } = useTranslate();
 
   useEffect(() => {
     if (select.isAuth) {
-      navigate("/profile", true);
+      navigate(-1);
     }
-  }, [select.isAuth])
+  }, [select.isAuth]);
 
   return (
     <Spinner active={select.waiting}>
-      <LoginForm onAuth={callbacks.onAuth} />
+      <LoginForm onAuth={callbacks.onAuth} error={select.error} />
     </Spinner>
   );
 });

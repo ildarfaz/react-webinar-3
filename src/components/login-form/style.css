@@ -7,9 +7,7 @@
   h2 {
     margin: 0;
   }
-  
 }
-
-.LoginForm_theme_big {
-  width: 300px;
+.LoginForm-error {
+  color: #F00;
 }

@@ -5,29 +5,23 @@ import useTranslate from "../../hooks/use-translate";
 import Spinner from "../../components/spinner";
 import { ProfileItem } from "../../components/profile-item";
 import { useNavigate } from "react-router";
+import useInit from "../../hooks/use-init";
 
 export const ProfileContainer = memo(() => {
-  const store = useStore();
   const navigate = useNavigate();
   const select = useSelector(state => ({
     profile: state.profile.profile,
-    waiting: state.profile.waiting,
-    isAuth: state.profile.isAuth,
+    waiting: state.profile.waiting || state.auth.waiting,
+    isAuth: state.auth.isAuth,
     email: state.profile.email
   }));
 
-  const callbacks = {
-    loadProfile: useCallback(() => store.actions.profile.load(), [store]),
-  }
-
   useEffect(() => {
-    if (!select.isAuth) {
+    if (!select.isAuth && select.waiting) {
+      console.log(select.waiting);
       navigate("/login", true);
     }
   }, [select.isAuth]);
-  useLayoutEffect(() => {
-    callbacks.loadProfile();
-  }, [])
 
   const { t } = useTranslate();
 

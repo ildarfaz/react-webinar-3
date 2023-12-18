@@ -5,16 +5,24 @@ import useStore from "../../hooks/use-store";
 import Controls from "../../components/controls";
 import { Link } from "react-router-dom";
 import useSelector from "../../hooks/use-selector";
+import useInit from "../../hooks/use-init";
 
 export const HeadProfile = memo(() => {
   const store = useStore();
   const select = useSelector(state => ({
-    isAuth: state.profile.isAuth,
-    username: state.profile.username,
+    isAuth: state.auth.isAuth,
+    username: state.auth.username,
   }));
   const callbacks = {
-    onLogout: useCallback(() => store.actions.profile.logout(), [store]),
+    onLogout: useCallback(() => store.actions.auth.logout(), [store]),
+    checkToken: useCallback(() => store.actions.auth.checkToken(), [store]),
+    loadProfile: useCallback(() => store.actions.profile.load(), [store]),
   }
+  useInit(() => {
+    callbacks.checkToken();
+    callbacks.loadProfile();
+  }, [], true);
+
   const Content = useMemo(() => {
     if (select.isAuth) {
       return (<>
