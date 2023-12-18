@@ -74,8 +74,8 @@ class AuthState extends StoreModule {
     removeLocalStorage("userName");
   };
 
-  async checkToken() {
-    const token = getLocalStorage('token');
+  async checkToken(token) {
+    
     try {
       if (token) {
         const response = await fetch(`/api/v1/users/self?fields=username,profile(name)`, {

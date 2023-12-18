@@ -1,11 +1,11 @@
 
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useLayoutEffect, useMemo } from "react";
 import './style.css';
 import useStore from "../../hooks/use-store";
 import Controls from "../../components/controls";
 import { Link } from "react-router-dom";
 import useSelector from "../../hooks/use-selector";
-import useInit from "../../hooks/use-init";
+import { getLocalStorage } from "../../utils";
 
 export const HeadProfile = memo(() => {
   const store = useStore();
@@ -13,15 +13,14 @@ export const HeadProfile = memo(() => {
     isAuth: state.auth.isAuth,
     username: state.auth.username,
   }));
+  const token = getLocalStorage('token');
   const callbacks = {
     onLogout: useCallback(() => store.actions.auth.logout(), [store]),
     checkToken: useCallback(() => store.actions.auth.checkToken(), [store]),
-    loadProfile: useCallback(() => store.actions.profile.load(), [store]),
   }
-  useInit(() => {
-    callbacks.checkToken();
-    callbacks.loadProfile();
-  }, [], true);
+  useLayoutEffect(() => {
+    callbacks.checkToken(token);
+  }, [token]);
 
   const Content = useMemo(() => {
     if (select.isAuth) {
