@@ -1,15 +1,13 @@
-import {useCallback, useContext, useEffect, useState} from 'react';
-import {Routes, Route} from 'react-router-dom';
-import useSelector from '../hooks/use-selector';
-import useStore from '../hooks/use-store';
-import useInit from '../hooks/use-init';
-import Main from './main';
-import Basket from './basket';
-import Article from './article';
-import Login from './login';
-import Profile from './profile';
+import { useSelector as useSelectorRedux } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 import Protected from '../containers/protected';
-import {useSelector as useSelectorRedux} from 'react-redux';
+import useInit from '../hooks/use-init';
+import useStore from '../hooks/use-store';
+import Article from './article';
+import Basket from './basket';
+import Login from './login';
+import Main from './main';
+import Profile from './profile';
 
 /**
  * Приложение

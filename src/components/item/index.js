@@ -1,9 +1,9 @@
-import {memo, useState} from 'react';
+import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
-import {cn as bem} from '@bem-react/classname';
+import { memo } from 'react';
+import { Link } from 'react-router-dom';
 import numberFormat from '../../utils/number-format';
 import './style.css';
-import {Link} from 'react-router-dom';
 
 function Item(props) {
 

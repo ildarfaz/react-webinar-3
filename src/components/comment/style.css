@@ -1,0 +1,21 @@
+.Comment {
+  padding: 0 40px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.Comment-user {
+  font-size: 12px;
+}
+
+.Comment-text {
+  font-size: 14px;
+  text-align: justify;
+}
+
+.Comment-link {
+  color: #0087E9 !important;
+  text-decoration: none;
+  font-size: 12px;
+}

@@ -1,0 +1,8 @@
+.AuthCommentForm {
+  padding: 30px 40px;
+  font-size: 16px;
+}
+.AuthCommentForm-link {
+  color: #0087E9 !important;
+  text-decoration: none;
+}

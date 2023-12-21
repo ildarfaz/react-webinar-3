@@ -1,14 +1,14 @@
-import {memo} from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import Item from '../item';
 import './style.css';
 
-function List({list, renderItem}) {
+function List(props) {
   return (
     <div className='List'>{
-      list.map(item =>
-        <div key={item._id} className='List-item'>
-          {renderItem(item)}
+      props.list.map(item =>
+        <div key={item._id} className={props.isBorder ? 'List-item' : ''}>
+          {props.renderItem(item)}
         </div>
       )}
     </div>
@@ -20,11 +20,13 @@ List.propTypes = {
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })).isRequired,
   renderItem: PropTypes.func,
+  isBorder: PropTypes.bool
 };
 
 List.defaultProps = {
   renderItem: (item) => {
   },
+  isBorder: true
 }
 
 export default memo(List);

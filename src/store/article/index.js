@@ -1,7 +1,7 @@
 import StoreModule from '../module';
 
 /**
- * Детальная ифнормация о товаре для страницы товара
+ * Детальная информация о товаре для страницы товара
  */
 class ArticleState extends StoreModule {
 
