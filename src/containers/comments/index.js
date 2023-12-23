@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import useStore from '../../hooks/use-store';
 import useSelector from "../../hooks/use-selector";
 import { useSelector as useSelectRedux } from "react-redux";
@@ -8,6 +8,8 @@ import Spinner from '../../components/spinner';
 import { CommentHead } from '../../components/comment-head';
 import { AuthCommentForm } from '../../components/auth-comment-form';
 import { Comment } from '../../components/comment';
+import listToTree from '../../utils/list-to-tree';
+import { PaddingLayout } from '../../components/padding-layout';
 
 export const Comments = memo(() => {
   const store = useStore();
@@ -15,11 +17,19 @@ export const Comments = memo(() => {
   const selectRedux = useSelectRedux(state => ({
     total: state.comments.total,
     waiting: state.comments.waiting,
-    list: state.comments.list || [],
+    comments: state.comments.list || [],
   }));
   const select = useSelector(state => ({
     exists: state.session.exists
   }));
+
+  const comments = useMemo(() => {
+    if (selectRedux.comments?.length) {
+      return listToTree(selectRedux.comments)[0].children
+    }
+    return []
+  }
+    , [selectRedux.comments]);
   
   const callbacks = {
     // Добавление комментария
@@ -30,15 +40,23 @@ export const Comments = memo(() => {
 
   const renders = {
     item: useCallback(item => (
-      <Comment item={item} onAdd={callbacks.addToComment}
-        labelAdd={t('comment.answer')} />
+      <>
+        <Comment item={item} onAdd={callbacks.addToComment}
+          labelAdd={t('comment.answer')} />
+        {item.children?.length ?
+          <PaddingLayout padding={"large"}>
+            <List list={item.children} renderItem={renders.item} isBorder={false} />
+          </PaddingLayout>
+          : null
+        }
+      </>
     ), [callbacks.addToComment, t]),
   };
 
   return (
     <Spinner active={selectRedux.waiting}>
       <CommentHead total={selectRedux.total} />
-      <List list={selectRedux.list} renderItem={renders.item} isBorder={false} />
+      <List list={comments} renderItem={renders.item} isBorder={false} />
       <AuthCommentForm exists={select.exists} />
     </Spinner>
   );

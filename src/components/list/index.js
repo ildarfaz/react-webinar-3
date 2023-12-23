@@ -1,13 +1,12 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
-import Item from '../item';
 import './style.css';
 
 function List(props) {
   return (
     <div className='List'>{
       props.list.map(item =>
-        <div key={item._id} className={props.isBorder ? 'List-item' : ''}>
+        <div key={item._id} className={props.isBorder ? 'List-item' : null}>
           {props.renderItem(item)}
         </div>
       )}

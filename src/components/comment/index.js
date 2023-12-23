@@ -21,11 +21,11 @@ export const Comment = memo((props) => {
   const callbacks = {
     onAdd: (e) => props.onAdd(props.item._id),
   }
+  
   const dateCreate = useMemo(() => new Date(props.item?.dateCreate), [props.item?.dateCreate]);
 
   return (
     <div className={cn()}>
-      {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn('user')}>
         <strong>{`${props.item.author.profile.name} `}</strong>
         <span>{`${dateCreate.toLocaleDateString('ru-Ru', optionsDate)}
