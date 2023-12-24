@@ -22,4 +22,22 @@ export default {
       }
     }
   },
+  sendComment(newComment, onLoad) {
+    return async (dispatch, getState, services) => {
+      try {
+        const res = await services.api.request({
+          url: `/api/v1/comments`,
+          method: "post",
+          body: JSON.stringify(newComment),
+          fields: "*"
+        });
+
+        if ([200, 201].includes(res.status)) {
+          onLoad();
+        }
+
+      } catch (e) {
+      }
+    }
+  },
 }

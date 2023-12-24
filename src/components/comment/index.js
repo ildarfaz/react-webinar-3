@@ -19,9 +19,13 @@ export const Comment = memo((props) => {
   const cn = bem('Comment');
 
   const callbacks = {
-    onAdd: (e) => props.onAdd(props.item._id),
+    onAdd: (e) => {
+      props.onAdd(props.item._id);
+      e.stopPropagation();
+    }
+    ,
   }
-  
+
   const dateCreate = useMemo(() => new Date(props.item?.dateCreate), [props.item?.dateCreate]);
 
   return (

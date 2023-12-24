@@ -1,0 +1,23 @@
+.CommentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  padding-bottom: 30px;
+}
+
+.CommentForm-text{
+  resize: none;
+  font-size: 14px;
+  height: 76px;
+  line-height: 16.1px;
+}
+
+.CommentForm-text::placeholder{
+  color: #000;
+}
+
+.CommentForm-control {
+  display: flex;
+  gap: 10px;
+}
