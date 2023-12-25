@@ -8,10 +8,14 @@
 .Comment-user {
   font-size: 12px;
 }
+.Comment-title {
+  font-size: 12px;
+  color: rgba(102, 102, 102, 1);
+}
 
 .Comment-text {
   font-size: 14px;
-  text-align: justify;
+  word-break: break-all;
 }
 
 .Comment-link {

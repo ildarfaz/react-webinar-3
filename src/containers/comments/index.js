@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useStore from '../../hooks/use-store';
 import useSelector from "../../hooks/use-selector";
 import { useDispatch, useSelector as useSelectRedux } from "react-redux";
@@ -20,14 +20,15 @@ export const Comments = memo(() => {
   const selectRedux = useSelectRedux(state => ({
     total: state.comments.total,
     waiting: state.comments.waiting,
-    comments: state.comments.list || [],
+    comments: state.comments.list,
     articleID: state.article.data._id
   }));
 
   const select = useSelector(state => ({
     exists: state.session.exists,
+    userID: state.session.user._id,
   }));
-
+  
   const [parent, setParent] = useState({ _id: null, _type: null });
 
   const comments = useMemo(() => {
@@ -54,33 +55,44 @@ export const Comments = memo(() => {
         <Comment item={item}
           onAdd={callbacks.handlerOpenForm("comment")}
           labelAdd={t('comment.answer')}
+          userID={select.userID}
         />
-        {item._id === parent._id && select.exists ? <CommentForm parent={parent} send={callbacks.handlerSend}
-          onCancel={() => callbacks.handlerOpenForm("article")(selectRedux?.articleID)} /> : null}
         {item.children?.length ?
           <PaddingLayout padding={"large"}>
-            <List list={item.children} renderItem={renders.item} isBorder={false} />
+            <>
+              <List list={item.children} renderItem={renders.item} isBorder={false} />
+              {item._id === parent._id ? <AuthCommentForm exists={select.exists} ><CommentForm parent={parent} send={callbacks.handlerSend}
+                onCancel={() => callbacks.handlerOpenForm("article")(selectRedux?.articleID)} /></AuthCommentForm> : null}
+            </>
           </PaddingLayout>
-          : null
+          :
+          item._id === parent._id ? <AuthCommentForm exists={select.exists} ><CommentForm parent={parent} send={callbacks.handlerSend}
+            onCancel={() => callbacks.handlerOpenForm("article")(selectRedux?.articleID)} /></AuthCommentForm> : null
         }
+
       </>
-    ), [callbacks.handlerOpenForm, parent._id, t]),
+    ), [callbacks.handlerOpenForm, parent._id, t, select.exists]),
   };
 
   useEffect(() => {
     setParent({ _id: selectRedux.articleID, _type: "article" });
   }, [selectRedux.articleID]);
 
+
+
   return (
     <Spinner active={selectRedux.waiting}>
       <ContentLayout  >
         <CommentHead total={selectRedux.total} />
         <List list={comments} renderItem={renders.item} isBorder={false} />
-        <AuthCommentForm exists={select.exists} />
-        {parent._id === selectRedux?.articleID && select.exists ? <CommentForm parent={parent} send={callbacks.handlerSend} /> : null}
+
+        {parent._id === selectRedux?.articleID ?
+          <AuthCommentForm exists={select.exists} isFocus={false}>
+            <CommentForm parent={parent}
+              send={callbacks.handlerSend}
+              title={"Новый комментарий"} /></AuthCommentForm> : null}
       </ContentLayout>
 
     </Spinner>
   );
 });
-// onHandler={() => handlerOpenForm("article")(selectRedux?.articleID)}

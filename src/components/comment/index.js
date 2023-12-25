@@ -31,7 +31,7 @@ export const Comment = memo((props) => {
   return (
     <div className={cn()}>
       <div className={cn('user')}>
-        <strong>{`${props.item.author.profile.name} `}</strong>
+        <strong className={props.userID === props.item.author._id ? cn('title') : null}>{`${props.item.author.profile.name} `}</strong>
         <span>{`${dateCreate.toLocaleDateString('ru-Ru', optionsDate)}
          ${dateCreate.getFullYear()} в 
          ${dateCreate.toLocaleTimeString('ru-Ru', optionsTime)}`}</span>
@@ -64,6 +64,8 @@ Comment.propTypes = {
     })
   }).isRequired,
   onAdd: PropTypes.func,
+  labelAdd: PropTypes.string,
+  userID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 Comment.defaultProps = {
