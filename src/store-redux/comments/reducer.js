@@ -32,6 +32,13 @@ function reducer(state = initialState, action) {
         total: 0,
         waiting: false
       };
+    case "sendComment/load-success":
+      return {
+        ...state,
+        waiting: false,
+        count: state.count + 1,
+        list: [...state.list, action.payload.data]
+      };
 
     default:
       // Нет изменений

@@ -14,7 +14,7 @@ export default {
           url: `api/v1/comments?fields=items(_id,text,dateCreate,author(profile(name)),parent(_id,_type),isDeleted),count&limit=*&search[parent]=${parentId}`
         });
         // Список комментариев загружен успешно
-        dispatch({ type: "comments/load-success", payload: { data: res.data.result } });
+        dispatch({ type: "comments/load-success", payload: { data: res.data.result, parentId } });
 
       } catch (e) {
         //Ошибка загрузки
@@ -22,7 +22,7 @@ export default {
       }
     }
   },
-  sendComment(newComment, onLoad) {
+  sendComment(newComment, name) {
     return async (dispatch, getState, services) => {
       try {
         const res = await services.api.request({
@@ -31,9 +31,19 @@ export default {
           body: JSON.stringify(newComment),
           fields: "*"
         });
-
         if ([200, 201].includes(res.status)) {
-          onLoad();
+          dispatch({
+            type: 'sendComment/load-success',
+            payload: {
+              data: {
+                ...res.data.result,
+                author: {
+                  ...res.data.result.author,
+                  profile: { name }
+                }
+              }
+            }
+          });
         }
 
       } catch (e) {

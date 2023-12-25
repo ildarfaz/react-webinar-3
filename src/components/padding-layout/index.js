@@ -4,9 +4,11 @@ import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
 export const PaddingLayout = memo(({ children, padding }) => {
+  
   const cn = bem('PaddingLayout');
+
   return (
-    <div className={cn({ padding })}>
+    <div className={padding !== 'none' ? cn({ padding }) : null}>
       {React.Children.map(children, (child) => (
         <div key={child.key}>{child}</div>
       ))}
@@ -16,7 +18,7 @@ export const PaddingLayout = memo(({ children, padding }) => {
 
 PaddingLayout.propTypes = {
   children: PropTypes.node,
-  padding: PropTypes.oneOf(['small', 'medium', 'large']),
+  padding: PropTypes.oneOf(['none', 'small', 'medium', 'large']),
 }
 
 PaddingLayout.defaultProps = {};
